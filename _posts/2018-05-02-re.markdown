@@ -1,0 +1,187 @@
+---
+layout: post
+title: 设计一个价格金额校验器
+date: 2018-05-02 10:40:24.000000000 +09:00
+---
+如何才能更好的实现一个价格金额校验器，需要满足的需求如下：
+1. 正数，最多两位小数
+2. 数值有区间限制
+3. 错误要有错误提示
+
+##### 第一种方案：函数式实现
+```bash
+
+function myfunction(min, max, pointLength)
+{
+  var numberDom =  window.document.getElementsByTagName('input')[0];
+  var a = numberDom.value;
+  var reg = /(^[-+]?[1-9]\d{0,8}(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/;
+ // 判定是否是数字 
+  if(a !== ''){
+    if(!reg.test(a)){
+    	window.document.getElementsByTagName('p')[0].innerHTML = "请输入合法的数字：" + min + "-" + max + "之间的数字，并且最多" + pointLength + "位小数";
+    } else {
+    	window.document.getElementsByTagName('p')[0].innerHTML = "校验通过";
+    }
+    
+  } else {
+    window.document.getElementsByTagName('p')[0].innerHTML = "请输入数字";
+  }
+
+  
+} 
+
+```
+备注：这个方案的缺点：
+1. 代码庞大，if-else较多，如果再有限制条件，只能添加if else；
+2. 函数缺乏弹性，如果再有校验规则，则只能改函数，不符合开放-封闭原则
+3. 算法的复用性差，如果有别的地方使用，只能拷贝代码
+
+##### 第二种方案：策略模式引入
+基于上面的问题，我们能不能像写配置一样去写这个验证呢？实现的基本逻辑是这样的：
+```bash
+
+// 获取校验元素
+var numberDom =  window.document.getElementsByTagName('input')[0];
+
+// 根据校验规则，生成校验器
+var validator = new Validator();
+validator.add(numberDom.value, 'isNotEmpty', '请输入数字');
+validator.add(numberDom.value, 'minLength: 1', '用户输入不能少于1');
+
+// 开始校验，输入校验元素，输出错误信息
+var errorObj = validator.start();
+
+// 根据错误信息进行提示
+if(errorObj.errorMsg){
+    console.log(errorObj.errorMsg);
+} else {
+    console.log('校验通过');
+}
+
+```
+什么是策略模式？
+它的核心思想是将做什么和谁去做相分离，一个完整的策略模糊包括策略类，环境类，就像出去旅行，有多种交通工具，交通工具就相当于策略类，在本次实践中，给出的三个条件就是三个验证方法，多个验证方法组成了策略类，代码重构如下：
+```bash
+var strategies = {
+    isNubmer(value, errorMessage){
+        return value.isNaN ? errorMessage : void 0;
+    },
+    minLength(value, length, errorMessage){
+        return value.length < length ? errorMessage : void 0;
+    },
+    maxLength(value, length, errorMessage){
+        return value.length > length ? errorMessage : void 0;
+    },
+    pointLength(value, length, errorMessage){
+        return value.length > length ? errorMessage : void 0;
+    }
+}
+```
+
+我们完成了具体策略类的编写，接下来需要以可配置化的方式执行策略类，我们称它为角色类，角色类的作用是接收请求但是不处理请求，请求交给策略类力的具体方法处理，代码如下：
+```bash
+    class Validator {
+        constructor(){
+           this.cache = []; // 代码内容
+        }
+        add(dom, rules){
+            for (var rule of rules) {
+                var strategyRule = rule.strategy.split(':');
+                var errorMsg = rule.errorMsg;
+                this.cache.push(() => {
+                    var strategy = strategyRule.shift();
+                    strategyRule.unshift(dom.value);
+                    strategyRule.push(errorMsg);
+                    return strategies[strategy].apply(dom, strategyAry);
+                })
+            }
+        },
+        start(){
+            for (var validatorFunc of this.cache) {
+                var errorMsg = validatorFunc() // 开始校验
+                if (errorMsg) {
+                    return errorMsg
+                }
+
+            }
+        }
+    }
+
+```
+
+目前为止，我们已经完成了当前的策略类书写，接下来我们直接在场景中实际使用，
+```bash
+var numberDom =  window.document.getElementsByTagName('input')[0];
+const validatorFunc = () => {
+    var validator = new Validator();
+    validator.add(numberDom.value, [{
+        strategy: 'isNubmer',
+        errorMsg: '请输入数字'
+    },{
+        strategy: 'minLength',
+        errorMsg: '请输入大于*数字'
+    },{
+        strategy: 'maxLength',
+        errorMsg: '请输入小于*数字'
+    },{
+        strategy: 'pointLength',
+        errorMsg: '请输入数字'
+    }]);
+}
+numberDom.addEventListener('blur', function(){
+    let errorMsg = validatorFunc();
+    if (errorMsg) {
+        console.log(errorMsg);
+        return false;
+    }
+})
+```
+
+备注：策略模式优势是代码更加优雅，可复用，书写方便，但是也增加了代码量和复杂度，有一定的门槛，所以还可以利用ES6的proxy对象，在对象访问属性时就进行拦截
+
+##### 第三种：ES6的proxy对象做属性拦截
+proxy相当于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种'元编程'，即对编程语言进行编程。理解成对目标对象的访问都要经过这一层拦截，重构后代码如下，具体的语法后面再解释：
+```bash
+function validator(target, validator, errorMsg){
+    return new Proxy(target, {
+        _validator: validator,
+        set (target, key, value, proxy) {
+            let errMsg = errorMsg;
+            if (value == '') {
+                return target[key] = false
+            }
+            let va = this._validator[key];
+            if (!!va(value)) {
+                return Reflect.set(target, key, value, proxy);
+            } else {
+                return target[key] = false;
+            }
+        }
+    })
+}
+```
+备注：proxy接收两个参数，一个是目标对象，第二个是配置对象，对于每一个被代理的操作，需要提供一个对应的处理函数，该函数拦截对应的操作
+注意：proxy起作用只有针对proxy实例，所以在实际运用中，重构代码如下：
+```bash
+const errorMsg = {};
+const vali = validator({}, validators, errorMsg);
+var numberDom =  window.document.getElementsByTagName('input')[0];
+numberDom.addEventListener('onBlur', function(){
+    let validatorNext = funciton*(){
+        yield vali.isNumber = numberDom.value;
+        yield vali.minLength = numberDom.value;
+        yield vali.maxLength = numberDom.value;
+        yield vali.pointLength = numberDom.value;
+    };
+    let validator = validatorNext();
+    validator.next();
+    ...
+}, false);
+```
+
+总结：上述几种方案，各有各的优势劣势，前端代码最终的方向是优雅，扩展性好，可复用，本例中具体的实现还需进一步验证，接下来一节会专门抽个时间来proxy实现，有问题可及时私信知乎账号
+
+
+
+

@@ -1,103 +1,223 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vno Jekyll</title>
-    <description>Vno Jekyll is a port of my Ghost theme vno.</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 24 Apr 2018 10:18:04 +0800</pubDate>
-    <lastBuildDate>Tue, 24 Apr 2018 10:18:04 +0800</lastBuildDate>
+    <title>Sara 小主</title>
+    <description>一名美女前端的非物质文化遗产.</description>
+    <link>http://sara.express/</link>
+    <atom:link href="http://sara.express/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 03 May 2018 17:43:03 +0800</pubDate>
+    <lastBuildDate>Thu, 03 May 2018 17:43:03 +0800</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
     
       <item>
-        <title>Hello World - Vno</title>
-        <description>&lt;h4 id=&quot;whats-this&quot;&gt;What’s this&lt;/h4&gt;
+        <title>设计一个价格金额校验器</title>
+        <description>&lt;p&gt;如何才能更好的实现一个价格金额校验器，需要满足的需求如下：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;正数，最多两位小数&lt;/li&gt;
+  &lt;li&gt;数值有区间限制&lt;/li&gt;
+  &lt;li&gt;错误要有错误提示&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/onevcat/vno-jekyll&quot;&gt;Vno Jekyll&lt;/a&gt; is a theme for &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt;. It is a port of my Ghost theme &lt;a href=&quot;https://github.com/onevcat/vno&quot;&gt;vno&lt;/a&gt;, which is originally developed from &lt;a href=&quot;https://github.com/daleanthony/uno&quot;&gt;Dale Anthony’s Uno&lt;/a&gt;.&lt;/p&gt;
+&lt;h5 id=&quot;第一种方案函数式实现&quot;&gt;第一种方案：函数式实现&lt;/h5&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;myfunction&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;min, max, pointLength&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  var numberDom &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  window.document.getElementsByTagName&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'input'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)[&lt;/span&gt;0];
+  var a &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; numberDom.value;
+  var reg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; /&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;^[-+]?[1-9]&lt;span class=&quot;se&quot;&gt;\d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;0,8&lt;span class=&quot;o&quot;&gt;}(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.\d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;1,2&lt;span class=&quot;o&quot;&gt;})&lt;/span&gt;?&lt;span class=&quot;nv&quot;&gt;$)&lt;/span&gt;|&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;^[-+]?[0]&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;1&lt;span class=&quot;o&quot;&gt;}(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.\d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;1,2&lt;span class=&quot;o&quot;&gt;})&lt;/span&gt;?&lt;span class=&quot;nv&quot;&gt;$)&lt;/span&gt;/;
+ // 判定是否是数字 
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;a !&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;!reg.test&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;a&lt;span class=&quot;o&quot;&gt;)){&lt;/span&gt;
+    	window.document.getElementsByTagName&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'p'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)[&lt;/span&gt;0].innerHTML &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请输入合法的数字：&quot;&lt;/span&gt; + min + &lt;span class=&quot;s2&quot;&gt;&quot;-&quot;&lt;/span&gt; + max + &lt;span class=&quot;s2&quot;&gt;&quot;之间的数字，并且最多&quot;&lt;/span&gt; + pointLength + &lt;span class=&quot;s2&quot;&gt;&quot;位小数&quot;&lt;/span&gt;;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    	window.document.getElementsByTagName&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'p'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)[&lt;/span&gt;0].innerHTML &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;校验通过&quot;&lt;/span&gt;;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    window.document.getElementsByTagName&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'p'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)[&lt;/span&gt;0].innerHTML &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请输入数字&quot;&lt;/span&gt;;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 
-&lt;h4 id=&quot;usage&quot;&gt;Usage&lt;/h4&gt;
+  
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; 
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git clone https://github.com/onevcat/vno-jekyll.git your_site
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;your_site
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;bundler install
-&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;bundler &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;备注：这个方案的缺点：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;代码庞大，if-else较多，如果再有限制条件，只能添加if else；&lt;/li&gt;
+  &lt;li&gt;函数缺乏弹性，如果再有校验规则，则只能改函数，不符合开放-封闭原则&lt;/li&gt;
+  &lt;li&gt;算法的复用性差，如果有别的地方使用，只能拷贝代码&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5 id=&quot;第二种方案策略模式引入&quot;&gt;第二种方案：策略模式引入&lt;/h5&gt;
+&lt;p&gt;基于上面的问题，我们能不能像写配置一样去写这个验证呢？实现的基本逻辑是这样的：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+// 获取校验元素
+var numberDom &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  window.document.getElementsByTagName&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'input'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)[&lt;/span&gt;0];
+
+// 根据校验规则，生成校验器
+var validator &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; new Validator&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;;
+validator.add&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;numberDom.value, &lt;span class=&quot;s1&quot;&gt;'isNotEmpty'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'请输入数字'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+validator.add&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;numberDom.value, &lt;span class=&quot;s1&quot;&gt;'minLength: 1'&lt;/span&gt;, &lt;span class=&quot;s1&quot;&gt;'用户输入不能少于1'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+
+// 开始校验，输入校验元素，输出错误信息
+var errorObj &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; validator.start&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;;
+
+// 根据错误信息进行提示
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;errorObj.errorMsg&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    console.log&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;errorObj.errorMsg&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    console.log&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'校验通过'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;什么是策略模式？
+它的核心思想是将做什么和谁去做相分离，一个完整的策略模糊包括策略类，环境类，就像出去旅行，有多种交通工具，交通工具就相当于策略类，在本次实践中，给出的三个条件就是三个验证方法，多个验证方法组成了策略类，代码重构如下：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var strategies &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    isNubmer&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;value, errorMessage&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;value.isNaN ? errorMessage : void 0;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+    minLength&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;value, length, errorMessage&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;value.length &amp;lt; length ? errorMessage : void 0;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+    maxLength&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;value, length, errorMessage&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;value.length &amp;gt; length ? errorMessage : void 0;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+    pointLength&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;value, length, errorMessage&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;value.length &amp;gt; length ? errorMessage : void 0;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Your site with &lt;code class=&quot;highlighter-rouge&quot;&gt;Vno Jekyll&lt;/code&gt; enabled should be accessible in http://127.0.0.1:4000.&lt;/p&gt;
+&lt;p&gt;我们完成了具体策略类的编写，接下来需要以可配置化的方式执行策略类，我们称它为角色类，角色类的作用是接收请求但是不处理请求，请求交给策略类力的具体方法处理，代码如下：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    class Validator &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        constructor&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+           this.cache &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt;; // 代码内容
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        add&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;dom, rules&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;var rule of rules&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                var strategyRule &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; rule.strategy.split&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;':'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+                var errorMsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; rule.errorMsg;
+                this.cache.push&lt;span class=&quot;o&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    var strategy &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; strategyRule.shift&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;;
+                    strategyRule.unshift&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;dom.value&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+                    strategyRule.push&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;errorMsg&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+                    &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;strategies[strategy].apply&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;dom, strategyAry&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+                &lt;span class=&quot;o&quot;&gt;})&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+        start&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;var validatorFunc of this.cache&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                var errorMsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; validatorFunc&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; // 开始校验
+                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;errorMsg&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;errorMsg
+                &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 
-&lt;p&gt;For more information about Jekyll, please visit &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll’s site&lt;/a&gt;.&lt;/p&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 
-&lt;h4 id=&quot;configuration&quot;&gt;Configuration&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;p&gt;All configuration could be done in &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt;. Remember you need to restart to serve the page when after changing the config file. Everything in the config file should be self-explanatory.&lt;/p&gt;
+&lt;p&gt;目前为止，我们已经完成了当前的策略类书写，接下来我们直接在场景中实际使用，&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;var numberDom &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  window.document.getElementsByTagName&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'input'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)[&lt;/span&gt;0];
+const validatorFunc &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    var validator &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; new Validator&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;;
+    validator.add&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;numberDom.value, &lt;span class=&quot;o&quot;&gt;[{&lt;/span&gt;
+        strategy: &lt;span class=&quot;s1&quot;&gt;'isNubmer'&lt;/span&gt;,
+        errorMsg: &lt;span class=&quot;s1&quot;&gt;'请输入数字'&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        strategy: &lt;span class=&quot;s1&quot;&gt;'minLength'&lt;/span&gt;,
+        errorMsg: &lt;span class=&quot;s1&quot;&gt;'请输入大于*数字'&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        strategy: &lt;span class=&quot;s1&quot;&gt;'maxLength'&lt;/span&gt;,
+        errorMsg: &lt;span class=&quot;s1&quot;&gt;'请输入小于*数字'&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        strategy: &lt;span class=&quot;s1&quot;&gt;'pointLength'&lt;/span&gt;,
+        errorMsg: &lt;span class=&quot;s1&quot;&gt;'请输入数字'&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}])&lt;/span&gt;;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+numberDom.addEventListener&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'blur'&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;errorMsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; validatorFunc&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;errorMsg&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        console.log&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;errorMsg&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+        &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;h4 id=&quot;background-image-and-avatar&quot;&gt;Background image and avatar&lt;/h4&gt;
+&lt;p&gt;备注：策略模式优势是代码更加优雅，可复用，书写方便，但是也增加了代码量和复杂度，有一定的门槛，所以还可以利用ES6的proxy对象，在对象访问属性时就进行拦截&lt;/p&gt;
 
-&lt;p&gt;You could replace the background and avatar image in &lt;code class=&quot;highlighter-rouge&quot;&gt;assets/images&lt;/code&gt; folder to change them.&lt;/p&gt;
+&lt;h5 id=&quot;第三种es6的proxy对象做属性拦截&quot;&gt;第三种：ES6的proxy对象做属性拦截&lt;/h5&gt;
+&lt;p&gt;proxy相当于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种’元编程’，即对编程语言进行编程。理解成对目标对象的访问都要经过这一层拦截，重构后代码如下，具体的语法后面再解释：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;validator&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;target, validator, errorMsg&lt;span class=&quot;o&quot;&gt;){&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;new Proxy&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;target, &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        _validator: validator,
+        &lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;target, key, value, proxy&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;errMsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; errorMsg;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;value &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;target[key] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;va &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; this._validator[key];
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;!!va&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;value&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;Reflect.set&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;target, key, value, proxy&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;k&quot;&gt;return &lt;/span&gt;target[key] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;备注：proxy接收两个参数，一个是目标对象，第二个是配置对象，对于每一个被代理的操作，需要提供一个对应的处理函数，该函数拦截对应的操作
+注意：proxy起作用只有针对proxy实例，所以在实际运用中，重构代码如下：&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const errorMsg &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;;
+const vali &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; validator&lt;span class=&quot;o&quot;&gt;({}&lt;/span&gt;, validators, errorMsg&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+var numberDom &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  window.document.getElementsByTagName&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'input'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)[&lt;/span&gt;0];
+numberDom.addEventListener&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'onBlur'&lt;/span&gt;, &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;validatorNext &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; funciton&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(){&lt;/span&gt;
+        yield vali.isNumber &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; numberDom.value;
+        yield vali.minLength &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; numberDom.value;
+        yield vali.maxLength &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; numberDom.value;
+        yield vali.pointLength &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; numberDom.value;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;;
+    &lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;validator &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; validatorNext&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;;
+    validator.next&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;;
+    ...
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;, &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;h4 id=&quot;sites-using-vno&quot;&gt;Sites using Vno&lt;/h4&gt;
+&lt;p&gt;总结：上述几种方案，各有各的优势劣势，前端代码最终的方向是优雅，扩展性好，可复用，本例中具体的实现还需进一步验证，接下来一节会专门抽个时间来proxy实现，有问题可及时私信知乎账号&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://onevcat.com&quot;&gt;My blog&lt;/a&gt; is using &lt;code class=&quot;highlighter-rouge&quot;&gt;Vno Jekyll&lt;/code&gt; as well, you could see how it works in real. There are some other sites using the same theme. You can find them below:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Site Name&lt;/th&gt;
-      &lt;th&gt;URL&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;OneV’s Den&lt;/td&gt;
-      &lt;td&gt;&lt;a href=&quot;http://onevcat.com&quot;&gt;http://onevcat.com&lt;/a&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;July Tang&lt;/td&gt;
-      &lt;td&gt;&lt;a href=&quot;http://onevcat.com&quot;&gt;http://blog.julytang.xyz&lt;/a&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Harry Lee&lt;/td&gt;
-      &lt;td&gt;&lt;a href=&quot;http://qiuqi.li&quot;&gt;http://qiuqi.li&lt;/a&gt;&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;If you happen to be using this theme, welcome to &lt;a href=&quot;https://github.com/onevcat/vno-jekyll/pulls&quot;&gt;send me a pull request&lt;/a&gt; to add your site link here. :)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;license&quot;&gt;License&lt;/h4&gt;
-
-&lt;p&gt;Great thanks to &lt;a href=&quot;https://github.com/daleanthony&quot;&gt;Dale Anthony&lt;/a&gt; and his &lt;a href=&quot;https://github.com/daleanthony/uno&quot;&gt;Uno&lt;/a&gt;. Vno Jekyll is based on Uno, and contains a lot of modification on page layout, animation, font and some more things I can not remember. Vno Jekyll is followed with Uno and be licensed as &lt;a href=&quot;http://creativecommons.org/licenses/by/4.0/&quot;&gt;Creative Commons Attribution 4.0 International&lt;/a&gt;. See the link for more information.&lt;/p&gt;
 </description>
-        <pubDate>Tue, 16 Feb 2016 14:32:24 +0800</pubDate>
-        <link>http://localhost:4000/2016/02/hello-world-vno/</link>
-        <guid isPermaLink="true">http://localhost:4000/2016/02/hello-world-vno/</guid>
+        <pubDate>Wed, 02 May 2018 09:40:24 +0800</pubDate>
+        <link>http://sara.express/2018/05/re/</link>
+        <guid isPermaLink="true">http://sara.express/2018/05/re/</guid>
         
         
       </item>
     
       <item>
-        <title>Sample Post</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>博客搭建资料</title>
+        <description>&lt;p&gt;2018年4月20日，很想把自己的所思所想留下来，作为自己的非物质文化遗产留给后世，所以就给自己开通了博客，经过多方比较，
+最后选择github+jekyll，经过一番周折，终于可以在本地开发、预览，期间用到的资料如下：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.jianshu.com/p/88c9e72978b4&quot;&gt;使用博文&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://jekyllrb.com/docs/frontmatter/&quot;&gt;jekyll官网地址&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
-
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;备注：
+博客的更新思路是以当天写代码过程中遇到的问题为主~~&lt;/p&gt;
 
 </description>
-        <pubDate>Mon, 15 Feb 2016 14:32:24 +0800</pubDate>
-        <link>http://localhost:4000/2016/02/sample-post/</link>
-        <guid isPermaLink="true">http://localhost:4000/2016/02/sample-post/</guid>
+        <pubDate>Tue, 24 Apr 2018 09:40:24 +0800</pubDate>
+        <link>http://sara.express/2018/04/resume/</link>
+        <guid isPermaLink="true">http://sara.express/2018/04/resume/</guid>
         
         
       </item>
